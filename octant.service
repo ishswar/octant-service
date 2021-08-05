@@ -1,0 +1,17 @@
+
+[Unit]
+Description=octant
+
+[Service]
+Environment="HOME=/home/ubuntu"
+Environment="KUBECONFIG=/home/ubuntu/.kube/config"
+Environment="OCTANT_LISTENER_ADDR=0.0.0.0:31082"
+Environment="OCTANT_DISABLE_OPEN_BROWSER=true"
+Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+WorkingDirectory=/usr/local/bin/
+ExecStart=/usr/local/bin/octant
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
