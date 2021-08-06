@@ -2,9 +2,9 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
   name: CLUSTER_NAME
-  region: us-west-2
+  region: AWS_REGION
 
 nodeGroups:
   - name: ng-1-workers
-    instanceType: t2.large
-    desiredCapacity: 4
+    instanceType: EKS_NODE_SIZE
+    desiredCapacity: NUMBER_OF_NODES
