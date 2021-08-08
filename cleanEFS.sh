@@ -29,4 +29,6 @@ if [[ "$(aws efs describe-file-systems --creation-token $EFS_CREATE_TOKEN --regi
       	  sleep 5
       done
       echo "Done deleting EFS with ID [$FILE_SYSTEM_ID]"
+else
+   echo "OLD EFS does not exists - nothing to cleanup"
 fi
