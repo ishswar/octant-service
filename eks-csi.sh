@@ -97,11 +97,14 @@ done
 until [ "$(aws efs describe-mount-targets --region $region --file-system-id $FILE_SYSTEM_ID | jq --raw-output '.MountTargets[].LifeCycleState' | grep available | wc -l)" -eq "3" ]; do echo "Waiting for mount targets to be available"; sleep 5; done
 
 
+echo "************************** EFS with id [$FILE_SYSTEM_ID] is ready to be used by EKS *******************************"
+
 echo "======================================================================================"
 echo "===========================  Creating Storage class =================================="
 echo "======================================================================================"
 
 curl --silent -o storageclass.yaml https://raw.githubusercontent.com/ishswar/octant-service/master/storageclass.yaml
+# Tell storage class to use our new EFS 
 sed -i -e "s/FILE_SYSTEM_ID/$FILE_SYSTEM_ID/g" storageclass.yaml
 
 kubectl delete -f storageclass.yaml --force || echo "Nothing to delete so moving on"
