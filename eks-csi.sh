@@ -34,7 +34,7 @@ eksctl create iamserviceaccount \
     --region $region
 
 echo "======================================================================================"
-echo "======================  Adding Hem Chart : aws-efs-csi  =============================="
+echo "======================  Adding Helm Chart : aws-efs-csi  =============================="
 echo "======================================================================================"
 
 helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
@@ -151,5 +151,4 @@ echo "====================  Cleaning test POD and PVC from cluster =============
 echo "======================================================================================"
 
 kubectl delete -f pod.yaml --force --grace-period=0
-
 
