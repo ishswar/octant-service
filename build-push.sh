@@ -44,7 +44,7 @@ push_images () {
   echo "==========================================================================="
   echo "============== Done Cleaning local iamges ================================"
   echo "Now, building images"
-  ./build-images.sh
+  ~/webfocus-ce/scripts/build-images.sh
   echo "============ TAGGING images ==================="
   docker tag $DOCKER_REPO:$RS_TAG_PREFIX $DOCKER_REPO:$RS_TAG
   docker tag $DOCKER_REPO:$ETC_TAG_PREFIX $DOCKER_REPO:$ETC_TAG
