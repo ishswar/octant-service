@@ -8,8 +8,8 @@ set -o pipefail
 
 DOCKER_PASS=${1:-FAKE}
 WF_TAG_PREFIX=${2:-wfc-8207.28}
-RS_TAG_PREFIX=${3:-wfc-8207.28}
-ETC_TAG_PREFIX=${4:-wfc-8207.28}
+RS_TAG_PREFIX=${3:-wfs-8207.28}
+ETC_TAG_PREFIX=${4:-wfs-etc-8207.28}
 CURRENT_RELEASE=${5:-beta}
 vbuild=${6:-v28}
 
@@ -41,9 +41,9 @@ docker pull $DOCKER_REPO:$WF_TAG || {
   echo "Now, building images"
   ./build-images.sh
   echo "============ TAGGING images ==================="
-  docker tag $DOCKER_REPO:wfs-8207.28 $DOCKER_REPO:$RS_TAG
-  docker tag $DOCKER_REPO:wfs-etc-8207.28 $DOCKER_REPO:$ETC_TAG
-  docker tag $DOCKER_REPO:wfc-8207.28 $DOCKER_REPO:$WF_TAG
+  docker tag $DOCKER_REPO:$RS_TAG_PREFIX $DOCKER_REPO:$RS_TAG
+  docker tag $DOCKER_REPO:$ETC_TAG_PREFIX $DOCKER_REPO:$ETC_TAG
+  docker tag $DOCKER_REPO:$WF_TAG_PREFIX $DOCKER_REPO:$WF_TAG
   echo "============ LISTING images =================="
   docker images  
   echo "============ PUSHING to Docker hub =========="
@@ -53,5 +53,30 @@ docker pull $DOCKER_REPO:$WF_TAG || {
   echo "============ Done Pushing images to Docker hub ====="
 
 }
+
+echo "================= Running image validation ========================"
+echo "======== Deleting local image [$DOCKER_REPO:$WF_TAG] and image [$DOCKER_REPO:$WF_TAG_PREFIX]"
+echo ""
+docker rmi $DOCKER_REPO:$WF_TAG
+docker rmi $DOCKER_REPO:$WF_TAG_PREFIX
+echo ""
+echo "======== Pulling fresh copy"
+docker pull $DOCKER_REPO:$WF_TAG
+echo ""
+echo "======== Reading lable Webfocusce_build from image"
+echo ""
+vbuild_inimage=$(docker inspect $DOCKER_REPO:$WF_TAG | jq .[].Config.Labels.Webfocusce_build -r)
+vbuild_inimage=$(echo "$vbuild_inimage" | tr '[:upper:]' '[:lower:]')
+echo "======== Comparing vbuild_inimage : [$vbuild_inimage] from vbuild that we have vbuild : [$vbuild] "
+if [[ $vbuild_inimage =~ "$vbuild" ]];
+   then
+     echo "We found expected vbuild [$vbuild] in image lables we are good";
+   else
+    echo "We did not find what we were expecting in image lable ";
+    echo "Printing image lables"
+    docker inspect $DOCKER_REPO:$WF_TAG | jq .[].Config.Labels
+    exit 123
+fi
+echo "=============== Done with image validation ====================="
 
 echo ">>>>>>>>>>>>>>>> Images are pushed to Docker hub or they are already there <<<<<<<<<<<<<<<<<<<<<<<"
