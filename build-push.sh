@@ -32,7 +32,7 @@ echo "Using TAG : ETC_TAG=${ETC_TAG}"
 
 docker login -u ibiuser -p $DOCKER_PASS
 
-docker pull $DOCKER_REPO:$WF_TAG || {
+#docker pull $DOCKER_REPO:$WF_TAG || {
 
   echo "Image [$DOCKER_REPO:$WF_TAG] is not there on Docker hub that means we need to build all 3 images"
   echo "============= Cleaning any local images if there any ====================="
@@ -52,7 +52,7 @@ docker pull $DOCKER_REPO:$WF_TAG || {
   docker push $DOCKER_REPO:$WF_TAG
   echo "============ Done Pushing images to Docker hub ====="
 
-}
+#}
 
 echo "================= Running image validation ========================"
 echo "======== Deleting local image [$DOCKER_REPO:$WF_TAG] and image [$DOCKER_REPO:$WF_TAG_PREFIX]"
