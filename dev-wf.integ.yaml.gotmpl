@@ -1,0 +1,34 @@
+---
+appserver:
+  imagePullSecrets:
+  - name: ibi-docker-hub
+  volumePermissions:
+    enabled: false
+edaserver:
+  imagePullSecrets:
+  - name: ibi-docker-hub
+  volumePermissions:
+    enabled: false
+  service:
+    type: NodePort
+    #sessionAffinity: ClientIP
+clm:
+  imagePullSecrets:
+  - name: ibi-docker-hub
+  volumePermissions:
+    enabled: false
+  service:
+    annotations: {}
+    type: NodePort
+cachemanager:
+  imagePullSecrets:
+  - name: ibi-docker-hub
+  service:
+    type: NodePort
+swego:
+  enabled: true
+storage:
+  accessMode: ReadWriteMany
+edaetc:
+  volumePermissions:
+    enabled: false
