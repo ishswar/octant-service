@@ -79,8 +79,8 @@ fi
 echo "================= Running image validation ========================"
 echo "======== Deleting local image [$DOCKER_REPO:$WF_TAG] and image [$DOCKER_REPO:$WF_TAG_PREFIX]"
 echo ""
-docker rmi $DOCKER_REPO:$WF_TAG
-docker rmi $DOCKER_REPO:$WF_TAG_PREFIX
+docker rmi $DOCKER_REPO:$WF_TAG || echo "Docker image $DOCKER_REPO:$WF_TAG is not found - it's okay"
+docker rmi $DOCKER_REPO:$WF_TAG_PREFIX || echo "Docker image $DOCKER_REPO:$WF_TAG_PREFIX is not found - it's okay"
 echo ""
 echo "======== Pulling fresh copy"
 docker pull $DOCKER_REPO:$WF_TAG
