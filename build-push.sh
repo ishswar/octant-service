@@ -12,6 +12,7 @@ RS_TAG_PREFIX=${3:-wfs-8207.28}
 ETC_TAG_PREFIX=${4:-wfs-etc-8207.28}
 CURRENT_RELEASE=${5:-beta}
 vbuild=${6:-v28}
+FORCE_PUSH=${7:-TRUE}
 
 DOCKER_REPO=ibi2020/webfocus
 
@@ -32,8 +33,9 @@ echo "Using TAG : ETC_TAG=${ETC_TAG}"
 
 docker login -u ibiuser -p $DOCKER_PASS
 
-#docker pull $DOCKER_REPO:$WF_TAG || {
 
+push_images () {
+  
   echo "Image [$DOCKER_REPO:$WF_TAG] is not there on Docker hub that means we need to build all 3 images"
   echo "============= Cleaning any local images if there any ====================="
   docker rmi $(docker images -q) || echo "Some images might not cleanup that's fine"
@@ -55,7 +57,24 @@ docker login -u ibiuser -p $DOCKER_PASS
   docker push $DOCKER_REPO:$WF_TAG
   echo "============ Done Pushing images to Docker hub ====="
 
-#}
+  FORCE_PUSH=FALSE
+
+} 
+
+
+docker pull $DOCKER_REPO:$WF_TAG || {
+	push_images
+}
+
+echo "Force push is set to $FORCE_PUSH "
+
+if [[ $FORCE_PUSH =~ "TRUE" ]];
+  then
+  	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  	echo "!!!!!!!!!!!!! FORCE_PUSH is set to $FORCE_PUSH so pushing images again !!!!!!!!!!!!!!!!"
+  	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  	push_images
+fi
 
 echo "================= Running image validation ========================"
 echo "======== Deleting local image [$DOCKER_REPO:$WF_TAG] and image [$DOCKER_REPO:$WF_TAG_PREFIX]"
