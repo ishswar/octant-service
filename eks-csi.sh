@@ -67,7 +67,7 @@ echo "==========================================================================
 VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text --region $region)
 CIDR_BLOCK=$(aws ec2 describe-vpcs --vpc-ids $VPC_ID --query "Vpcs[].CidrBlock" --output text --region $region)
 
-MOUNT_TARGET_GROUP_NAME="eks-efs-group"
+MOUNT_TARGET_GROUP_NAME="eks-$CLUSTER_NAME-efs-group"
 MOUNT_TARGET_GROUP_DESC="NFS access to EFS from EKS worker nodes"
 MOUNT_TARGET_GROUP_ID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=$MOUNT_TARGET_GROUP_NAME Name=vpc-id,Values=$VPC_ID --region $region | jq --raw-output '.SecurityGroups[0].GroupId') || echo "this is fien"
 aws ec2 delete-security-group --group-id $MOUNT_TARGET_GROUP_ID --region $region || echo "this is fine too"
