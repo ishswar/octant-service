@@ -37,6 +37,9 @@ docker login -u ibiuser -p $DOCKER_PASS
   echo "Image [$DOCKER_REPO:$WF_TAG] is not there on Docker hub that means we need to build all 3 images"
   echo "============= Cleaning any local images if there any ====================="
   docker rmi $(docker images -q) || echo "Some images might not cleanup that's fine"
+  echo "============== LISTING LOCAL IMAGES ======================================"
+  docker images
+  echo "==========================================================================="
   echo "============== Done Cleaning local iamges ================================"
   echo "Now, building images"
   ./build-images.sh
