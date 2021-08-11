@@ -6,7 +6,7 @@ set -u
 set -o pipefail
 
 CLUSTER_NAME=${1:-ramakuma}
-EFS_CREATE_TOKEN=$CLUSTER_NAME-EFS
+EFS_CREATE_TOKEN=${CLUSTER_NAME}-EFS
 ACCOUNT_ID=837550156338
 region=${2:-us-west-2}
 
@@ -80,7 +80,7 @@ MOUNT_TARGET_GROUP_ID=$(aws ec2 create-security-group --group-name $MOUNT_TARGET
 
 aws ec2 authorize-security-group-ingress --region $region --group-id $MOUNT_TARGET_GROUP_ID --protocol tcp --port 2049 --cidr $CIDR_BLOCK
 
-FILE_SYSTEM_ID=$(aws efs create-file-system --creation-token $CLUSTER_NAME-EFS --region $region -tags Key=Name,Value="EFS For EKS $CLUSTER_NAME" | jq --raw-output '.FileSystemId')
+FILE_SYSTEM_ID=$(aws efs create-file-system --creation-token $EFS_CREATE_TOKEN --region $region --tags Key=Name,Value="EFS For EKS $CLUSTER_NAME" | jq --raw-output '.FileSystemId')
 
 echo "File system is $FILE_SYSTEM_ID is creted"
 
