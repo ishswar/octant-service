@@ -80,7 +80,7 @@ MOUNT_TARGET_GROUP_ID=$(aws ec2 create-security-group --group-name $MOUNT_TARGET
 
 aws ec2 authorize-security-group-ingress --region $region --group-id $MOUNT_TARGET_GROUP_ID --protocol tcp --port 2049 --cidr $CIDR_BLOCK
 
-FILE_SYSTEM_ID=$(aws efs create-file-system --creation-token $CLUSTER_NAME-EFS --region $region | jq --raw-output '.FileSystemId')
+FILE_SYSTEM_ID=$(aws efs create-file-system --creation-token $CLUSTER_NAME-EFS --region $region -tags Key=Name,Value="EFS For EKS $CLUSTER_NAME" | jq --raw-output '.FileSystemId')
 
 echo "File system is $FILE_SYSTEM_ID is creted"
 
