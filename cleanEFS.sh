@@ -7,6 +7,7 @@ set -o pipefail
 
 EFS_CREATE_TOKEN=${1}
 region=${2}
+CLUSTER_NAME=${3}
 
 if [[ "$(aws efs describe-file-systems --creation-token $EFS_CREATE_TOKEN --region $region | jq -r .FileSystems[0].FileSystemId)" != null ]]; then
 	  echo "Looks like old File system is present - we need to clean that first"
@@ -28,6 +29,15 @@ if [[ "$(aws efs describe-file-systems --creation-token $EFS_CREATE_TOKEN --regi
       	  echo "Still deleteding EFS with ID [$FILE_SYSTEM_ID]"
       	  sleep 5
       done
+      
+      echo "Deleting SecurityGroup eks-$CLUSTER_NAME-efs-group"
+      VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resourcesVpcConfig.vpcId" --output text --region $region)
+      MOUNT_TARGET_GROUP_NAME="eks-$CLUSTER_NAME-efs-group"
+      MOUNT_TARGET_GROUP_DESC="NFS access to EFS from EKS worker nodes"
+      MOUNT_TARGET_GROUP_ID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=$MOUNT_TARGET_GROUP_NAME Name=vpc-id,Values=$VPC_ID --region $region | jq --raw-output '.SecurityGroups[0].GroupId') || echo "this is fien"
+      echo "About to delete SC : $MOUNT_TARGET_GROUP_ID"
+      aws ec2 delete-security-group --group-id $MOUNT_TARGET_GROUP_ID --region $region || echo "this is fine too"
+
       echo "Done deleting EFS with ID [$FILE_SYSTEM_ID]"
 else
    echo "OLD EFS does not exists - nothing to cleanup"

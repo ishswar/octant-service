@@ -58,7 +58,7 @@ echo "==========================================================================
 curl --silent -o cleanEFS.sh https://raw.githubusercontent.com/ishswar/octant-service/master/cleanEFS.sh
 chmod +x cleanEFS.sh 
 
-./cleanEFS.sh $EFS_CREATE_TOKEN $region
+./cleanEFS.sh $EFS_CREATE_TOKEN $region $CLUSTER_NAME
 
 echo "======================================================================================"
 echo "============================  Creating new EFS Now  =================================="
