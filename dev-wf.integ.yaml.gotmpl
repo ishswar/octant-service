@@ -4,6 +4,11 @@ appserver:
   - name: ibi-docker-hub
   volumePermissions:
     enabled: false
+edaetc:
+  imagePullSecrets:
+  - name: ibi-docker-hub
+  volumePermissions:
+    enabled: false
 edaserver:
   imagePullSecrets:
   - name: ibi-docker-hub
@@ -29,6 +34,6 @@ swego:
   enabled: true
 storage:
   accessMode: ReadWriteMany
-edaetc:
-  volumePermissions:
-    enabled: false
+#edaetc:
+#  volumePermissions:
+#    enabled: false
