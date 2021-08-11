@@ -9,6 +9,12 @@ EFS_CREATE_TOKEN=${1}
 region=${2}
 CLUSTER_NAME=${3}
 
+echo "######### INPUTS ##############"
+echo "### EFS_CREATE_TOKEN: ${EFS_CREATE_TOKEN}"
+echo "### region: ${region}"
+echo "### CLUSTER_NAME: ${CLUSTER_NAME}"
+echo "###############################"
+
 if [[ "$(aws efs describe-file-systems --creation-token $EFS_CREATE_TOKEN --region $region | jq -r .FileSystems[0].FileSystemId)" != null ]]; then
 	  echo "Looks like old File system is present - we need to clean that first"
       FILE_SYSTEM_ID=$(aws efs describe-file-systems --creation-token $EFS_CREATE_TOKEN --region $region | jq -r .FileSystems[0].FileSystemId)
