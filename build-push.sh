@@ -45,6 +45,7 @@ push_images () {
   echo "============== Done Cleaning local iamges ================================"
   echo "Now, building images"
   cd ~/webfocus-ce/scripts
+  sed -i -e "s/build/build -q/g" ~/webfocus-ce/scripts/build-images.sh
   ./build-images.sh
   cd ~
   echo "============ TAGGING images ==================="
@@ -54,9 +55,9 @@ push_images () {
   echo "============ LISTING images =================="
   docker images  
   echo "============ PUSHING to Docker hub =========="
-  docker push $DOCKER_REPO:$RS_TAG
-  docker push $DOCKER_REPO:$ETC_TAG
-  docker push $DOCKER_REPO:$WF_TAG
+  docker push --quiet $DOCKER_REPO:$RS_TAG
+  docker push --quiet $DOCKER_REPO:$ETC_TAG
+  docker push --quiet $DOCKER_REPO:$WF_TAG
   echo "============ Done Pushing images to Docker hub ====="
 
   FORCE_PUSH=FALSE
@@ -64,7 +65,7 @@ push_images () {
 } 
 
 
-docker pull $DOCKER_REPO:$WF_TAG || {
+docker pull --quiet $DOCKER_REPO:$WF_TAG || {
 	push_images
 }
 
@@ -85,7 +86,7 @@ docker rmi $DOCKER_REPO:$WF_TAG || echo "Docker image $DOCKER_REPO:$WF_TAG is no
 docker rmi $DOCKER_REPO:$WF_TAG_PREFIX || echo "Docker image $DOCKER_REPO:$WF_TAG_PREFIX is not found - it's okay"
 echo ""
 echo "======== Pulling fresh copy"
-docker pull $DOCKER_REPO:$WF_TAG
+docker pull --quiet $DOCKER_REPO:$WF_TAG
 echo ""
 echo "======== Reading lable Webfocusce_build from image"
 echo ""
