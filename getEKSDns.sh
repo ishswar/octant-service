@@ -19,6 +19,8 @@ export DNS_NAME=$DNS_NAME
 
 echo "EKS DNS is : $DNS_NAME"
 
-echo "Writing DNS Entry into file"
+echo "Cleaning up DNS_NAME value $DNS_NAME"
 DNS_NAME=$(echo "$DNS_NAME"|tr '\n' ' ')
+echo "After Cleaning up DNS_NAME value $DNS_NAME"
+echo "Writing DNS Entry into file"
 echo "$DNS_NAME" > jenkins/terraform/dns-$CLUSTER_NAME.txt
