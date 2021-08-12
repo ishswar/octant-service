@@ -18,3 +18,6 @@ DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" | jq ".LoadBalan
 export DNS_NAME=$DNS_NAME
 
 echo "EKS DNS is : $DNS_NAME"
+
+echo "Writing DNS Entry into file"
+echo "$DNS_NAME" > jenkins/terraform/dns-$CLUSTER_NAME.txt
