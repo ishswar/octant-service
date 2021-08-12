@@ -1,12 +1,9 @@
-#!/bin/bash
-
-
+#!/bin/sh
 
 # Prepare script with correct switches
 set +x
 set -e
 set -u
-set -o pipefail
 
 CLUSTER_NAME=${1:-FAKE}
 region=${2:-us-west-2}
