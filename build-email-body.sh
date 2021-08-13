@@ -39,6 +39,7 @@ fi
 TEMP_FOLDER=$(mktemp -d)
 BUILD_DATA_FILE="$TEMP_FOLDER/build-info.txt"
 DOCKER_INFO_FILE="$TEMP_FOLDER/docker-images.txt"
+CONTAINER_IMAGES_IN_USE="$TEMP_FOLDER/container-images-in-use.txt"
 
 aws s3 ls s3://ibi-devops/Jenkins/"$environment/" || { echo "S3 ls failed "; }
 
@@ -53,6 +54,20 @@ DATA="$(cat $BUILD_DATA_FILE)"
 echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!K8S_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
+
+mv email-new.html email.html
+
+if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) >/dev/null 2>/dev/null);then
+    echo "$CONTAINER_IMAGES_IN_USE exists - let's copy it to S3"
+    aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) $CONTAINER_IMAGES_IN_USE
+else
+    echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist - we will not copy it to s3"
+fi
+
+DATA="$(cat $CONTAINER_IMAGES_IN_USE)"
+echo "Creating Escapte data"
+ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
+cat email.html | sed 's!IMAGE_IN_USE!'"${ESCAPED_DATA}"'!' > email-new.html
 
 mv email-new.html email.html
 
