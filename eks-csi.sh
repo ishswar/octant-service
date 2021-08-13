@@ -5,6 +5,13 @@ set -e
 set -u
 set -o pipefail
 
+
+######
+### Re(Create) EFS Script
+### Input 1 : Name of EKS Cluster that this EFS will be attached / used by
+### Input 2 : AWS Region
+#####
+
 CLUSTER_NAME=${1:-ramakuma}
 EFS_CREATE_TOKEN=${CLUSTER_NAME}-EFS
 ACCOUNT_ID=837550156338

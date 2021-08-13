@@ -5,6 +5,13 @@ set -e
 set -u
 set -o pipefail
 
+######
+### Clean EFS Script
+### Input 1 : Creation token that was used while creating EFS
+### Input 2 : AWS Region
+### Input 3 : Name of EKS Cluster that this EFS is attached / used by
+#####
+
 EFS_CREATE_TOKEN=${1}
 region=${2}
 CLUSTER_NAME=${3}
