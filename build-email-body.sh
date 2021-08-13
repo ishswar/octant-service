@@ -11,7 +11,30 @@ curl --silent -o email.html https://raw.githubusercontent.com/ishswar/octant-ser
 
 
 
-## Stuff removed
+sed -i -e "s/JOB_STATUS/${BUILD_RESLUT}/g" email.html
+sed -i -e "s/JOB_DURATION/${BUILD_DURATION}/g" email.html
+sed -i -e "s!JOB_URL!$BUILD_URL!g" email.html
+sed -i -e "s!PUBLIC_IP!$PUBLIC_IP!g" email.html
+sed -i -e "s!OCTANT_URL!http://${PUBLIC_IP}:31082!g" email.html
+sed -i -e "s!PARAMTER_ENVIRONMENT!$environment!g" email.html
+sed -i -e "s!PARAMTER_AUTOAPPROVE!$autoApprove!g" email.html
+sed -i -e "s!PARAMTER_ACTION!$action!g" email.html
+sed -i -e "s!PARAMTER_USELOCALIMAGES!$useLocalImages!g" email.html
+sed -i -e "s!PARAMTER_CONFIGURE!$configure!g" email.html
+sed -i -e "s!PARAMTER_REUSEEKSCLUSTER!$reUseEKSCluster!g" email.html
+sed -i -e "s!PARAMTER_TARVERSION!<a href="http://reldist.tibco.com/package/webfocusce/1.0.0/$tarversion">$tarversion</a>!g" email.html
+sed -i -e "s!PARAMTER_EC2_INSTANCE_TYPE!$bastion_instance_type!g" email.html
+sed -i -e "s!PARAMTER_EC2_REGION!$region!g" email.html
+sed -i -e "s!USER_NAME!$environment!g" email.html
+CURRENT_DATE=$(date '+%Y-%m-%d %H:%M:%S')
+sed -i -e "s!REPORT_DATE!$CURRENT_DATE!g" email.html
+WEBFOUS_URL=$(echo "$WEBFOUS_URL"|tr '\n' ' ')
+sed -i -e "s!WEBFOCUS_URL!$WEBFOUS_URL!g" email.html
+if [ "$useEKS" = "Yes" ]; then
+ sed -i -e "s/CLUSTER_TYPE/EKS/g" email.html
+else
+ sed -i -e "s/CLUSTER_TYPE/LOCAL Cluster/g" email.html
+fi
 
 TEMP_FOLDER=$(mktemp -d)
 BUILD_DATA_FILE="$TEMP_FOLDER/build-info.txt"
