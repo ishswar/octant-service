@@ -67,7 +67,7 @@ fi
 DATA="$(cat $CONTAINER_IMAGES_IN_USE)"
 echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
-cat email.html | sed 's!IMAGE_IN_USE!'"${ESCAPED_DATA}"'!' > email-new.html
+cat email.html | sed 's!IMAGES_IN_USE!'"${ESCAPED_DATA}"'!' > email-new.html
 
 mv email-new.html email.html
 
