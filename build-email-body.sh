@@ -59,8 +59,11 @@ mv email-new.html email.html
 if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) >/dev/null 2>/dev/null);then
     echo "$DOCKER_INFO_FILE exists - let's copy it to S3"
     aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) $DOCKER_INFO_FILE
+    sed -i -e "s/PUSHED_REUSE/PUSHED/g" email.html
+    
 else
     echo "$(basename $DOCKER_INFO_FILE) doesn't exist - we will not copy it to s3"
+    sed -i -e "s/PUSHED_REUSE/REUSED (Docker hub)/g" email.html
 fi
 
 DATA="$(cat $DOCKER_INFO_FILE)"
