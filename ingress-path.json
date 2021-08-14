@@ -1,0 +1,26 @@
+[
+    {
+        "op" : "add" ,
+        "path" : "/spec/rules/-" ,
+        "value" : {
+            # Don't worry about this Host name - we will change it during automaton 
+            "host": "567-a99e27faab6d940f19b0ccfb77a8e517-c1d88c84bcd924b6.elb.us-west-2.amazonaws.com",
+            "http": {
+                "paths": [
+                        {
+                            "backend": {
+                                "service": {
+                                    "name": "swego",
+                                    "port": {
+                                        "name": "http"
+                                    }
+                                }
+                            },
+                            "path": "/swego",
+                            "pathType": "ImplementationSpecific"
+                        }
+                ]
+            }
+        }
+    }
+]
