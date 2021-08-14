@@ -14,6 +14,10 @@ curl --silent -o email.html https://raw.githubusercontent.com/ishswar/octant-ser
 sed -i -e "s/JOB_STATUS/${BUILD_RESLUT}/g" email.html
 sed -i -e "s/JOB_DURATION/${BUILD_DURATION}/g" email.html
 sed -i -e "s!JOB_URL!$BUILD_URL!g" email.html
+
+sed -i -e "s!JOB_ID!$BUILD_NUMBER!g" email.html
+sed -i -e "s!PARAMTER_VERSION!$product_version!g" email.html
+
 sed -i -e "s!PUBLIC_IP!$PUBLIC_IP!g" email.html
 sed -i -e "s!OCTANT_URL!http://${PUBLIC_IP}:31082!g" email.html
 sed -i -e "s!PARAMTER_ENVIRONMENT!$environment!g" email.html
