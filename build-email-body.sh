@@ -1,15 +1,13 @@
 #!/bin/bash
 
 # Prepare script with correct switches
-#set +x
+set +x
 set -e
 set -u
 
 echo "Shell is $SHELL & useEKS is $useEKS , envBUILD_STATUS is ${JOB_NAME} - BUILD_DURATION ${BUILD_DURATION} BUILD_RESLUT ${BUILD_RESLUT}"
 rm -rf email.html || echo "email template is not there - that's fine "
 curl --silent -o email.html https://raw.githubusercontent.com/ishswar/octant-service/master/email.html
-
-
 
 sed -i -e "s/JOB_STATUS/${BUILD_RESLUT}/g" email.html
 sed -i -e "s/JOB_DURATION/${BUILD_DURATION}/g" email.html
@@ -22,7 +20,6 @@ SWEGO_URL=$(echo "$SWEGO_URL"|tr '\n' ' ') # Remove new line
 SWEGO_URL=${SWEGO_URL%% } # Remove trailing spaces
 SWEGO_URL=${SWEGO_URL// }
 
-echo "Now doing work"
 sed -i -e "s+SWEGO_URL+$SWEGO_URL+g" email.html
 
 
