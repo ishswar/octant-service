@@ -58,7 +58,7 @@ if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FIL
     echo "$(basename $BUILD_DATA_FILE) exists on S3 - let's copy from S3"
     aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) $BUILD_DATA_FILE
 else
-    echo "$(basename $BUILD_DATA_FILE) doesn't exist on s3 - we will not copy it to s3"
+    echo "$(basename $BUILD_DATA_FILE) doesn't exist on s3 - we will not copy it from s3"
 fi
 
 if [[ -f $BUILD_DATA_FILE ]]; then
@@ -76,7 +76,7 @@ if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAG
     echo "$(basename $CONTAINER_IMAGES_IN_USE) exists on s3 - let's copy from to S3"
     aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) $CONTAINER_IMAGES_IN_USE
 else
-    echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist on s3 - we will not copy it to s3"
+    echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist on s3 - we will not copy it from s3"
 fi
 
 if [[ -f $CONTAINER_IMAGES_IN_USE ]]; then
@@ -96,7 +96,7 @@ if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FI
     sed -i -e "s/PUSHED_REUSE/PUSHED/g" email.html
     
 else
-    echo "$(basename $DOCKER_INFO_FILE) doesn't exist - we will not copy it to s3"
+    echo "$(basename $DOCKER_INFO_FILE) doesn't exist - we will not copy it from s3"
     sed -i -e "s/PUSHED_REUSE/REUSED (Docker hub)/g" email.html
 fi
 
@@ -108,7 +108,7 @@ ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!DOCKER_IMAGES_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
 mv email-new.html email.html
 else
-     sed -i -e "s!DOCKER_IMAGES_OUTPUT!---- N/A -----!g" email.html
+     sed -i -e "s!DOCKER_IMAGES_OUTPUT!--!g" email.html
 fi
 
 rm -rf $TEMP_FOLDER
