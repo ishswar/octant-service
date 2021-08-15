@@ -18,13 +18,9 @@ sed -i -e "s!JOB_URL!$BUILD_URL!g" email.html
 sed -i -e "s!JOB_ID!$BUILD_NUMBER!g" email.html
 sed -i -e "s!PARAMTER_VERSION!$product_version!g" email.html
 
-echo "SWEGO_URL is before (v2) [$SWEGO_URL]"
-
 SWEGO_URL=$(echo "$SWEGO_URL"|tr '\n' ' ') # Remove new line
 SWEGO_URL=${SWEGO_URL%% } # Remove trailing spaces
 SWEGO_URL=${SWEGO_URL// }
-
-echo "SWEGO_URL is [$SWEGO_URL]"
 
 echo "Now doing work"
 sed -i -e "s+SWEGO_URL+$SWEGO_URL+g" email.html
@@ -68,12 +64,16 @@ else
     echo "$(basename $BUILD_DATA_FILE) doesn't exist on s3 - we will not copy it to s3"
 fi
 
+if [[ -f $BUILD_DATA_FILE ]]; then
+
 DATA="$(cat $BUILD_DATA_FILE)"
 echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!K8S_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
 
 mv email-new.html email.html
+
+fi
 
 if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) >/dev/null 2>/dev/null);then
     echo "$(basename $CONTAINER_IMAGES_IN_USE) exists on s3 - let's copy from to S3"
@@ -82,12 +82,16 @@ else
     echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist on s3 - we will not copy it to s3"
 fi
 
+if [[ -f $CONTAINER_IMAGES_IN_USE ]]; then
+
 DATA="$(cat $CONTAINER_IMAGES_IN_USE)"
 echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!IMAGES_IN_USE!'"${ESCAPED_DATA}"'!' > email-new.html
 
 mv email-new.html email.html
+
+fi
 
 if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) >/dev/null 2>/dev/null);then
     echo "$DOCKER_INFO_FILE exists - let's copy it to S3"
@@ -99,11 +103,14 @@ else
     sed -i -e "s/PUSHED_REUSE/REUSED (Docker hub)/g" email.html
 fi
 
+if [[ -f $DOCKER_INFO_FILE ]]; then
+
 DATA="$(cat $DOCKER_INFO_FILE)"
 echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!DOCKER_IMAGES_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
-
 mv email-new.html email.html
+
+fi
 
 rm -rf $TEMP_FOLDER
