@@ -18,6 +18,8 @@ sed -i -e "s!JOB_URL!$BUILD_URL!g" email.html
 sed -i -e "s!JOB_ID!$BUILD_NUMBER!g" email.html
 sed -i -e "s!PARAMTER_VERSION!$product_version!g" email.html
 
+SWEGO_URL=${SWEGO_URL// } 
+
 echo "SWEGO_URL is [$SWEGO_URL]"
 
 sed -i -e "s+SWEGO_URL+$SWEGO_URL+g" email.html
