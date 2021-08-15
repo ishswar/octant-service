@@ -20,7 +20,8 @@ export DNS_NAME=$DNS_NAME
 echo "EKS DNS is : $DNS_NAME"
 
 echo "Cleaning up DNS_NAME value $DNS_NAME"
-DNS_NAME=$(echo "$DNS_NAME"|tr '\n' ' ')
+DNS_NAME=$(echo "$DNS_NAME"|tr '\n' ' ') # Remove new line 
+DNS_NAME=${DNS_NAME%% } # Remove trailing spaces 
 echo "After Cleaning up DNS_NAME value $DNS_NAME"
 echo "Writing DNS Entry into file"
 echo "$DNS_NAME" > jenkins/terraform/dns-$CLUSTER_NAME.txt
