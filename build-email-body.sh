@@ -26,6 +26,7 @@ SWEGO_URL=${SWEGO_URL// }
 
 echo "SWEGO_URL is [$SWEGO_URL]"
 
+echo "Now doing work"
 sed -i -e "s+SWEGO_URL+$SWEGO_URL+g" email.html
 
 
