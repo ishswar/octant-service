@@ -20,6 +20,8 @@ sed -i -e "s!PARAMTER_VERSION!$product_version!g" email.html
 
 echo "SWEGO_URL is before [$SWEGO_URL]"
 
+SWEGO_URL=$(echo "$SWEGO_URL"|tr '\n' ' ') # Remove new line
+SWEGO_URL=${SWEGO_URL%% } # Remove trailing spaces
 SWEGO_URL=${SWEGO_URL// }
 
 echo "SWEGO_URL is [$SWEGO_URL]"
