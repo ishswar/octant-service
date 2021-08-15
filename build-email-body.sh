@@ -18,7 +18,7 @@ sed -i -e "s!JOB_URL!$BUILD_URL!g" email.html
 sed -i -e "s!JOB_ID!$BUILD_NUMBER!g" email.html
 sed -i -e "s!PARAMTER_VERSION!$product_version!g" email.html
 
-echo "SWEGO_URL is before [$SWEGO_URL]"
+echo "SWEGO_URL is before (v2) [$SWEGO_URL]"
 
 SWEGO_URL=$(echo "$SWEGO_URL"|tr '\n' ' ') # Remove new line
 SWEGO_URL=${SWEGO_URL%% } # Remove trailing spaces
