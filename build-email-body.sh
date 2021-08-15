@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prepare script with correct switches
-set +x
+#set +x
 set -e
 set -u
 
@@ -47,13 +47,15 @@ BUILD_DATA_FILE="$TEMP_FOLDER/build-info.txt"
 DOCKER_INFO_FILE="$TEMP_FOLDER/docker-images.txt"
 CONTAINER_IMAGES_IN_USE="$TEMP_FOLDER/container-images-in-use.txt"
 
+echo "Listing content of s3 FOLDER s3://ibi-devops/Jenkins/$environment/"
+
 aws s3 ls s3://ibi-devops/Jenkins/"$environment/" || { echo "S3 ls failed "; }
 
 if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) >/dev/null 2>/dev/null);then
-    echo "$BUILD_DATA_FILE exists - let's copy it to S3"
+    echo "$(basename $BUILD_DATA_FILE) exists on S3 - let's copy from S3"
     aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) $BUILD_DATA_FILE
 else
-    echo "$(basename $BUILD_DATA_FILE) doesn't exist - we will not copy it to s3"
+    echo "$(basename $BUILD_DATA_FILE) doesn't exist on s3 - we will not copy it to s3"
 fi
 
 DATA="$(cat $BUILD_DATA_FILE)"
@@ -64,10 +66,10 @@ cat email.html | sed 's!K8S_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
 mv email-new.html email.html
 
 if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) >/dev/null 2>/dev/null);then
-    echo "$CONTAINER_IMAGES_IN_USE exists - let's copy it to S3"
+    echo "$(basename $CONTAINER_IMAGES_IN_USE) exists on s3 - let's copy from to S3"
     aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) $CONTAINER_IMAGES_IN_USE
 else
-    echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist - we will not copy it to s3"
+    echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist on s3 - we will not copy it to s3"
 fi
 
 DATA="$(cat $CONTAINER_IMAGES_IN_USE)"
