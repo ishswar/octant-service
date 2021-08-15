@@ -16,7 +16,7 @@
                                     }
                                 }
                             },
-                            "path": "/swego",
+                            "path": "/swego/(.*)",
                             "pathType": "ImplementationSpecific"
                         }
                 ]
