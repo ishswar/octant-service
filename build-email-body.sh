@@ -107,7 +107,8 @@ echo "Creating Escapte data"
 ESCAPED_DATA="$(echo "${DATA}" | sed ':a;N;$!ba;s!\n!\\n!g' | sed 's!\$!\\$!g')"
 cat email.html | sed 's!DOCKER_IMAGES_OUTPUT!'"${ESCAPED_DATA}"'!' > email-new.html
 mv email-new.html email.html
-
+else
+     sed -i -e "s/DOCKER_IMAGES_OUTPUT/---- N/A -----/g" email.html
 fi
 
 rm -rf $TEMP_FOLDER
