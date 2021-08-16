@@ -58,13 +58,13 @@ BUILD_DATA_FILE="$TEMP_FOLDER/build-info.txt"
 DOCKER_INFO_FILE="$TEMP_FOLDER/docker-images.txt"
 CONTAINER_IMAGES_IN_USE="$TEMP_FOLDER/container-images-in-use.txt"
 
-echo "Listing content of s3 FOLDER s3://ibi-devops/Jenkins/$environment/"
+echo "Listing content of s3 FOLDER s3://$S3_BUCKET_NAME/Jenkins/$environment/"
 
-aws s3 ls s3://ibi-devops/Jenkins/"$environment/" || { echo "S3 ls failed "; }
+aws s3 ls s3://$S3_BUCKET_NAME/Jenkins/"$environment/" || { echo "S3 ls failed "; }
 
-if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) >/dev/null 2>/dev/null);then
+if ( aws s3 ls s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) >/dev/null 2>/dev/null);then
     echo "$(basename $BUILD_DATA_FILE) exists on S3 - let's copy from S3"
-    aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) $BUILD_DATA_FILE
+    aws s3 cp s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $BUILD_DATA_FILE) $BUILD_DATA_FILE
 else
     echo "$(basename $BUILD_DATA_FILE) doesn't exist on s3 - we will not copy it from s3"
 fi
@@ -80,9 +80,9 @@ mv email-new.html email.html
 
 fi
 
-if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) >/dev/null 2>/dev/null);then
+if ( aws s3 ls s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) >/dev/null 2>/dev/null);then
     echo "$(basename $CONTAINER_IMAGES_IN_USE) exists on s3 - let's copy from to S3"
-    aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) $CONTAINER_IMAGES_IN_USE
+    aws s3 cp s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $CONTAINER_IMAGES_IN_USE) $CONTAINER_IMAGES_IN_USE
 else
     echo "$(basename $CONTAINER_IMAGES_IN_USE) doesn't exist on s3 - we will not copy it from s3"
 fi
@@ -98,9 +98,9 @@ mv email-new.html email.html
 
 fi
 
-if ( aws s3 ls s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) >/dev/null 2>/dev/null);then
+if ( aws s3 ls s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) >/dev/null 2>/dev/null);then
     echo "$DOCKER_INFO_FILE exists - let's copy it to S3"
-    aws s3 cp s3://ibi-devops/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) $DOCKER_INFO_FILE
+    aws s3 cp s3://$S3_BUCKET_NAME/Jenkins/"$environment"/$(basename $DOCKER_INFO_FILE) $DOCKER_INFO_FILE
     sed -i -e "s/PUSHED_REUSE/PUSHED/g" email.html
     
 else
