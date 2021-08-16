@@ -11,7 +11,10 @@ curl --silent -o email.html https://raw.githubusercontent.com/ishswar/octant-ser
 
 sed -i -e "s/JOB_STATUS/${BUILD_RESLUT}/g" email.html
 
+echo "Build result is $BUILD_RESLUT"
+
 if [[ "$BUILD_RESLUT" =~ "FAILURE" ]]; then 
+    echo "Build result is $BUILD_RESLUT"
     sed -i -e "s/6aa84f/ff0000/g" email.html
 fi
 
