@@ -2,6 +2,8 @@ controller:
   replicaCount: 1
   service:
     type: "LoadBalancer"
+    # Comamnd 
+    # aws ec2 describe-security-groups --group-ids sg-052bf2b468c3b0f0c --region us-east-2 --output json --max-items 60  | jq .SecurityGroups[].IpPermissions[].IpRanges[].CidrIp -r | sort | uniq
     loadBalancerSourceRanges:
       - 10.128.43.133/32
       - 10.128.49.118/32
