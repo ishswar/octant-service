@@ -39,7 +39,12 @@ sed -i -e "s!PARAMTER_ACTION!$action!g" email.html
 sed -i -e "s!PARAMTER_USELOCALIMAGES!$useLocalImages!g" email.html
 sed -i -e "s!PARAMTER_CONFIGURE!$configure!g" email.html
 sed -i -e "s!PARAMTER_REUSEEKSCLUSTER!$reUseEKSCluster!g" email.html
+if [[ $tarversion == T* ]]; then
+   sed -i -e "s!PARAMTER_TARVERSION!<a href="http://reldist.tibco.com/package/webfocusce/1.0.0/test-installers/$tarversion">$tarversion</a>!g" email.html
+else
 sed -i -e "s!PARAMTER_TARVERSION!<a href="http://reldist.tibco.com/package/webfocusce/1.0.0/$tarversion">$tarversion</a>!g" email.html
+fi
+
 sed -i -e "s!PARAMTER_EC2_INSTANCE_TYPE!$bastion_instance_type!g" email.html
 sed -i -e "s!PARAMTER_EC2_REGION!$region!g" email.html
 sed -i -e "s!USER_NAME!$environment!g" email.html
