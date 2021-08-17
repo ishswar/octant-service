@@ -23,11 +23,11 @@ echo "Input is : OUTPUT_FILE=${OUTPUT_FILE}"
 VPC_ID=$(aws eks describe-cluster --name "$CLUSTER_NAME" --query "cluster.resourcesVpcConfig.vpcId" --output text --region "$region")
 echo "VPC ID for cluster $CLUSTER_NAME is [$VPC_ID]"
 # ELB
-echo "Getting DNS_Name using elb with VPC_ID = ${VPC_ID}"
-DNS_Name=$(aws elb describe-load-balancers --output json --region "$region" | jq ".LoadBalancerDescriptions[] | select(.VPCId==\"$VPC_ID\")" | jq -r .DNSName)
+echo "Getting DNS_NAME using elb with VPC_ID = ${VPC_ID}"
+DNS_NAME=$(aws elb describe-load-balancers --output json --region "$region" | jq ".LoadBalancerDescriptions[] | select(.VPCId==\"$VPC_ID\")" | jq -r .DNSName)
 
 # ELBV2
-#DNS_Name=$(aws elbv2 describe-load-balancers --output json --region "$AWS_REGION" | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq -r .DNSName)
+#DNS_NAME=$(aws elbv2 describe-load-balancers --output json --region "$AWS_REGION" | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq -r .DNSName)
 #DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"${VPC_ID}\")" | jq -r .DNSName)
 
 echo "Cleaning up DNS_NAME value $DNS_NAME"
