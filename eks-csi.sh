@@ -14,7 +14,7 @@ set -o pipefail
 
 CLUSTER_NAME=${1:-ramakuma}
 EFS_CREATE_TOKEN=${CLUSTER_NAME}-EFS
-ACCOUNT_ID=837550156338
+ACCOUNT_ID=729111267627
 region=${2:-us-west-2}
 
 echo "######### INPUTS ##############"
