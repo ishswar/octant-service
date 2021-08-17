@@ -22,7 +22,12 @@ echo "Input is : OUTPUT_FILE=${OUTPUT_FILE}"
 
 VPC_ID=$(aws eks describe-cluster --name "$CLUSTER_NAME" --query "cluster.resourcesVpcConfig.vpcId" --output text --region "$region")
 echo "VPC ID for cluster $CLUSTER_NAME is [$VPC_ID]"
-DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"${VPC_ID}\")" | jq -r .DNSName)
+# ELB
+DNS_Name=$(aws elb describe-load-balancers --region "$region" | jq ".LoadBalancerDescriptions[] | select(.VPCId==\"$VPC_ID\")" | jq -r .DNSName)
+
+# ELBV2
+#DNS_Name=$(aws elbv2 describe-load-balancers --region "$AWS_REGION" | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq -r .DNSName)
+#DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"${VPC_ID}\")" | jq -r .DNSName)
 
 echo "Cleaning up DNS_NAME value $DNS_NAME"
 DNS_NAME=$(echo "$DNS_NAME"|tr '\n' ' ') # Remove new line 
