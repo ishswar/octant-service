@@ -45,6 +45,12 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts \
     --region $region
 
+
+echo "========= cluster's OIDC provider URL =============="
+aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.identity.oidc.issuer" --output text --region $region
+
+
+
 echo "======================================================================================"
 echo "======================  Adding Helm Chart : aws-efs-csi  =============================="
 echo "======================================================================================"
