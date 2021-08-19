@@ -105,7 +105,12 @@ until [[ $(aws efs --region $region describe-file-systems --file-system-id $FILE
 
 TAG1=tag:alpha.eksctl.io/cluster-name
 TAG2=tag:kubernetes.io/role/elb
-subnets=($(aws ec2 describe-subnets --region $region --filters "Name=$TAG1,Values=$CLUSTER_NAME" "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
+
+# when we use our own vpc and subnets this works 
+subnets=($(aws ec2 describe-subnets --region $region --filters "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
+
+# if we use eksctl to create VPC this works 
+#subnets=($(aws ec2 describe-subnets --region $region --filters "Name=$TAG1,Values=$CLUSTER_NAME" "Name=$TAG2,Values=1" | jq --raw-output '.Subnets[].SubnetId'))
 for subnet in ${subnets[@]}
 do
     echo "creating mount target in " $subnet
