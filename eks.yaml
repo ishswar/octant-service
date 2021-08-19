@@ -8,3 +8,23 @@ nodeGroups:
   - name: ng-1-workers
     instanceType: EKS_NODE_SIZE
     desiredCapacity: NUMBER_OF_NODES
+# To create VPC and subnet do this 
+# https://docs.aws.amazon.com/eks/latest/userguide/create-public-private-vpc.html
+# wget https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+# Run aws cloudformation --region us-west-2 create-stack --stack-name eks-vpc --template-body file://amazon-eks-vpc-private-subnets.yaml --output=text
+# aws cloudformation describe-stacks --stack-name eks-vpc --region us-west-2 --output json - copy vpc id i.e vpc-0609cd2438e4c46eb
+# now run aws ec2 describe-subnets     --filters "Name=vpc-id,Values=vpc-0609cd2438e4c46eb" --region us-west-2
+# above should give you two public and two prive subject note that down and put it below also vp as well
+vpc:
+  id: "vpc-0609cd2438e4c46eb"
+  subnets:
+    private:
+      us-west-2b:
+          id: "subnet-018c4f5a0e3ccf676"
+      us-west-2a:
+          id: "subnet-08216275a84c7a260"
+    public:
+      us-west-2a:
+          id: "subnet-05e1ed942da39a2dd"
+      us-west-2b:
+          id: "subnet-0ffac04cabc00e6b2"
