@@ -22,13 +22,20 @@ echo "Input is : OUTPUT_FILE=${OUTPUT_FILE}"
 
 VPC_ID=$(aws eks describe-cluster --name "$CLUSTER_NAME" --query "cluster.resourcesVpcConfig.vpcId" --output text --region "$region")
 echo "VPC ID for cluster $CLUSTER_NAME is [$VPC_ID]"
+
+ELB_STATE=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq .State.Code -r)
+echo "ELB state is $ELB_STATE"
+
+until [[ $(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq .State.Code -r) =~ "active" ]]; do  echo "Waiting for ELB to become active ";sleep 5; done
 # ELB
 echo "Getting DNS_NAME using elb with VPC_ID = ${VPC_ID}"
-DNS_NAME=$(aws elb describe-load-balancers --output json --region "$region" | jq ".LoadBalancerDescriptions[] | select(.VPCId==\"$VPC_ID\")" | jq -r .DNSName)
+#DNS_NAME=$(aws elb describe-load-balancers --output json --region "$region" | jq ".LoadBalancerDescriptions[] | select(.VPCId==\"$VPC_ID\")" | jq -r .DNSName)
 
 # ELBV2
 #DNS_NAME=$(aws elbv2 describe-load-balancers --output json --region "$AWS_REGION" | jq ".LoadBalancers[] | select(.VpcId==\"$VPC_ID\")" | jq -r .DNSName)
-#DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"${VPC_ID}\")" | jq -r .DNSName)
+DNS_NAME=$(aws elbv2 describe-load-balancers --region "$region" --output json | jq ".LoadBalancers[] | select(.VpcId==\"${VPC_ID}\")" | jq -r .DNSName)
+
+
 
 echo "Cleaning up DNS_NAME value $DNS_NAME"
 DNS_NAME=$(echo "$DNS_NAME"|tr '\n' ' ') # Remove new line 
