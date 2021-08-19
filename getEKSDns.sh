@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Prepare script with correct switches
 set +x
