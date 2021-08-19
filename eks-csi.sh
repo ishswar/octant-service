@@ -117,7 +117,9 @@ do
     aws efs create-mount-target --region $region --file-system-id $FILE_SYSTEM_ID --subnet-id $subnet --security-groups $MOUNT_TARGET_GROUP_ID || echo "Sometime this might fail"
 done
 
-until [ "$(aws efs describe-mount-targets --region $region --file-system-id $FILE_SYSTEM_ID | jq --raw-output '.MountTargets[].LifeCycleState' | grep available | wc -l)" -eq "3" ]; do echo "Waiting for mount targets to be available"; sleep 5; done
+MNT_CT=$(aws efs describe-mount-targets --region $region --file-system-id $FILE_SYSTEM_ID | jq --raw-output '.MountTargets[].LifeCycleState' | wc -l)
+echo "Waiting for [$MNT_CT] to become available"
+until [ "$(aws efs describe-mount-targets --region $region --file-system-id $FILE_SYSTEM_ID | jq --raw-output '.MountTargets[].LifeCycleState' | grep available | wc -l)" -eq "$MNT_CT" ]; do echo "Waiting for mount targets to be available"; sleep 5; done
 
 
 echo "************************** EFS with id [$FILE_SYSTEM_ID] is ready to be used by EKS *******************************"
