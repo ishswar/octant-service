@@ -8,6 +8,18 @@ nodeGroups:
   - name: ng-1-workers
     instanceType: EKS_NODE_SIZE
     desiredCapacity: NUMBER_OF_NODES
+    minSize: 2
+    maxSize: 6
+    volumeSize: 20
+    ssh:
+      allow: true
+      #publicKeyPath: ~/.ssh/ec2_id_rsa.pub
+      publicKeyName: ibi-us-est-2
+      # new feature for restricting SSH access to certain AWS security group IDs
+      sourceSecurityGroupIds: ["sg-05ed858e913dca9a6"]
+    labels: {role: worker}
+    tags:
+      AutomaticStoppage: "false"    
 # To create VPC and subnet do this 
 # https://docs.aws.amazon.com/eks/latest/userguide/create-public-private-vpc.html
 # wget https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
