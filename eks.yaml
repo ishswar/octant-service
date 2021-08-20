@@ -16,7 +16,7 @@ nodeGroups:
       #publicKeyPath: ~/.ssh/ec2_id_rsa.pub
       publicKeyName: ibi-us-est-2
       # new feature for restricting SSH access to certain AWS security group IDs
-      sourceSecurityGroupIds: ["sg-05ed858e913dca9a6"]
+      #sourceSecurityGroupIds: ["sg-05ed858e913dca9a6"]
     labels: {role: worker}
     tags:
       AutomaticStoppage: "false"    
