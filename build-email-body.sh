@@ -48,6 +48,8 @@ else
 sed -i -e "s!PARAMTER_TARVERSION!<a href="http://reldist.tibco.com/package/webfocusce/1.0.0/$tarversion">$tarversion</a>!g" email.html
 fi
 
+echo "bastion_instance_type is $bastion_instance_type"
+
 sed -i -e "s!PARAMTER_EC2_INSTANCE_TYPE!$bastion_instance_type!g" email.html
 sed -i -e "s!PARAMTER_EC2_REGION!$region!g" email.html
 sed -i -e "s!USER_NAME!$environment!g" email.html
@@ -128,3 +130,7 @@ else
 fi
 
 rm -rf $TEMP_FOLDER
+
+
+
+                                     rm -rf jenkins/terraform/getEKSDns.sh || echo "It's okay if dns file is not there"
