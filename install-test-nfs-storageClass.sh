@@ -35,6 +35,7 @@ echo "================= Test is Over ===========================================
 echo ""
 
 echo "================= Cleaning up Test POD and PVC ================================="
-kubectl apply -f test-claim.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-pod.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-pod.yaml
+kubectl delete -f test-claim.yaml
 echo " ================ Cleanup finished =============================================="
+
