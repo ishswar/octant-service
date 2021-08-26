@@ -29,9 +29,10 @@ wget -q https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-pr
 sed -i -e "s/managed-nfs-storage/nfs-client/g" test-claim.yaml
 kubectl apply -f test-claim.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-pod.yaml
-until [[ $(kubectl get pod test-pod -o=jsonpath='{.status.phase}') =~ "Succeeded" ]]; do  echo "Waiting for to Succeed ";sleep 5; done
+until [[ $(kubectl get pod test-pod -o=jsonpath='{.status.phase}') =~ "Succeeded" ]]; do  echo "Waiting for test-pod to Succeed ";sleep 5; done
 
 echo "================= Test is Over =================================================="
+kubectl get pods,pvc,pv
 echo ""
 
 echo "================= Cleaning up Test POD and PVC ================================="
