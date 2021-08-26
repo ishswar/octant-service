@@ -39,4 +39,11 @@ echo "================= Cleaning up Test POD and PVC ===========================
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-pod.yaml
 kubectl delete -f test-claim.yaml
 echo " ================ Cleanup finished =============================================="
-
+kubectl get sc
+echo " ================ Making nfs-client as defalut storageclass ====================="
+kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+echo ""
+kubectl get sc 
+echo "###################################################################################"
+echo " ================ Script done ================================================="
+echo "###################################################################################"
