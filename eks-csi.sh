@@ -67,7 +67,10 @@ helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --set controller.serviceAccount.create=false \
     --set controller.serviceAccount.name=efs-csi-controller-sa
 
-timeout 5m bash -c  'until [[ "$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o jsonpath={..status.phase} | grep "Running" | wc -w)" -eq "4" ]]; do echo "Starting CSI Driver"; sleep 5; done'
+NO_OF_PODS_TO_BE_RUNNING=$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o wide --no-headers | wc -l)
+
+echo "Expecting $NO_OF_PODS_TO_BE_RUNNING to be running"
+timeout 5m bash -c  'until [[ "$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o jsonpath={..status.phase} | grep "Running" | wc -w)" -eq "$NO_OF_PODS_TO_BE_RUNNING" ]]; do echo "Starting CSI Driver"; sleep 5; done'
 
 echo "======================================================================================"
 echo "================================  Creating EFS  ======================================"
