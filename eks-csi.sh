@@ -72,7 +72,11 @@ kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app
 NO_OF_PODS_TO_BE_RUNNING=$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o wide --no-headers | wc -l)
 
 echo "Expecting $NO_OF_PODS_TO_BE_RUNNING to be running"
-timeout 5m bash -c  'until [[ "$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o jsonpath={..status.phase} | grep "Running" | wc -w)" -eq "$NO_OF_PODS_TO_BE_RUNNING" ]]; do echo "Starting CSI Driver"; sleep 5; done'
+timeout 5m bash -c  'until [[ "$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o jsonpath={..status.phase} | grep "Running" | wc -w)" -eq "$NO_OF_PODS_TO_BE_RUNNING" ]]; do echo "Starting CSI Driver";
+ sleep 5;
+ NO_OF_PODS_TO_BE_RUNNING=$(kubectl get pod -n kube-system -l "app.kubernetes.io/name=aws-efs-csi-driver,app.kubernetes.io/instance=aws-efs-csi-driver" -o wide --no-headers | wc -l);
+ echo "Expecting $NO_OF_PODS_TO_BE_RUNNING to be running";
+done'
 
 echo "======================================================================================"
 echo "================================  Creating EFS  ======================================"
