@@ -4,7 +4,11 @@
 
 In this demo we will deploy WebFOCUS CE ("BETA") and needed ancillary tools on EKS Cluster that is already pre-created 
 
-# Final topology 
+# Topology 
+
+We start with this setup like this :
+
+![WFC-ancillary](WFC-Installation-start.png "WebFOCUS CE ancillary")
 
 At the end our installation we will end-up with setup like this 
 
@@ -14,7 +18,7 @@ At the end our installation we will end-up with setup like this
 
 ## Install ancillary tools 
 
-This step will install - Postgres DB, Apache Solr and Apache Zookeeper. This all are needed for WebFOCUS CE to run
+This step will install - Postgres DB, Apache Solr and Apache Zookeeper. These all are needed for WebFOCUS CE to run
 
 ![WFC-ancillary](part1.png "WebFOCUS CE ancillary")
 
@@ -27,7 +31,7 @@ helmfile sync
 
 ### Sample output 
 
-If helm file succeeds than if you run `get pods` command in default namespace you should see output like below 
+If helm file succeeds than if you run `kubectl get pods` command in default namespace you should see output like below 
 
 ```bash
 ubuntu-pshah@ip-172-31-38-9:~/webfocus-ce/scripts/helmfile/infra$kubectl get pod
