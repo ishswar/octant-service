@@ -2,11 +2,11 @@
 
 # Introduction 
 
-In this demo we will deploy WebFOCUS CE and needed ancillary tools on EKS Cluster that is already pre-created 
+In this demo we will deploy WebFOCUS CE ("BETA") and needed ancillary tools on EKS Cluster that is already pre-created 
 
 # Final topology 
 
-At the end our installation should look like this 
+At the end our installation we will end-up with setup like this 
 
 ![WFC](WF-ContainerEdtion.png "WebFOCUS CE")
 
