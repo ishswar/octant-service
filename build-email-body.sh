@@ -36,9 +36,9 @@ sed -i -e "s+SWEGO_URL+$SWEGO_URL+g" email.html
 
 sed -i -e "s!PUBLIC_IP!$PUBLIC_IP!g" email.html
 
-sed -i -e "s!OCTANT_URL!$OCTANT_URL!g" email.html
+#sed -i -e "s!OCTANT_URL!$OCTANT_URL!g" email.html
 sed -i -e "s!OCTANT_URL!http://${PUBLIC_IP}:$OCTANT_PORT!g" email.html
-#sed -i -e "s!PARAMTER_ENVIRONMENT!$environment!g" email.html
+sed -i -e "s!PARAMTER_ENVIRONMENT!$environment!g" email.html
 sed -i -e "s!PARAMTER_AUTOAPPROVE!$autoApprove!g" email.html
 sed -i -e "s!PARAMTER_ACTION!$action!g" email.html
 sed -i -e "s!PARAMTER_USELOCALIMAGES!$useLocalImages!g" email.html
