@@ -17,8 +17,10 @@ chmod +x ps
 
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/ping -O
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/wget -O
+curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nano -O
 chmod +x ping
 chmod +x wget
+chmod +x nano
 
 echo "Done"
 ls -la
