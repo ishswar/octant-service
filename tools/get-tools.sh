@@ -18,9 +18,11 @@ chmod +x ps
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/ping -O
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/wget -O
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nano -O
+curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nslookup -O
 chmod +x ping
 chmod +x wget
 chmod +x nano
+chmod +x nslookup
 
 echo "Done"
 ls -la
