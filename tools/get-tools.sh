@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p /opt/webfocus/logs/tools
-cd 
+cd /opt/webfocus/logs/tools
 
 echo "Downloading tools in /opt/webfocus/logs/tools"
 ls -la 
