@@ -10,5 +10,7 @@ curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/ps
 chmod +x ps
 
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/ping -O
+curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/wget -O
 chmod +x ping
+chmod +x wget
 
