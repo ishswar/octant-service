@@ -1,5 +1,11 @@
 #!/bin/bash
 
+mkdir -p /opt/webfocus/logs/tools
+cd 
+
+echo "Downloading tools in /opt/webfocus/logs/tools"
+ls -la 
+
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nc -O
 chmod +x nc
 
@@ -14,3 +20,5 @@ curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/wg
 chmod +x ping
 chmod +x wget
 
+echo "Done"
+ls -la
