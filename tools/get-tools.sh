@@ -19,10 +19,12 @@ curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/pi
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/wget -O
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nano -O
 curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/nslookup -O
+curl -s https://raw.githubusercontent.com/ishswar/octant-service/master/tools/top -O
 chmod +x ping
 chmod +x wget
 chmod +x nano
 chmod +x nslookup
+chmod +x top
 
 echo "Done"
 ls -la
