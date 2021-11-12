@@ -43,6 +43,7 @@ kubectl get sc
 echo " ================ Making nfs-client as defalut storageclass ====================="
 kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}' || echo "This might fail it's okay"
+kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}' || echo "This might fail it's okay"
 echo ""
 kubectl get sc 
 echo "###################################################################################"
