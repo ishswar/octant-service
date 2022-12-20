@@ -81,7 +81,8 @@ printAndRunCommand echo "End Installing Docker"
 #### End Docker
 printAndRunCommand echo "Installing kubeadm kubelet kubectl"
 sudo apt-get install -y bash-completion
-source /usr/share/bash-completion/bash_completion
+{ source /usr/share/bash-completion/bash_completion; } || echo "Source Failed"
+echo "Installing apt-transport-https"
 sudo apt-get install -y apt-transport-https
 
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
