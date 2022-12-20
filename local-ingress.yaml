@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    meta.helm.sh/release-name: appserver
+    meta.helm.sh/release-namespace: webfocus
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/app-root: /webfocus
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "28800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "28800"
+    nginx.ingress.kubernetes.io/session-cookie-name: sticknesscookie
+    nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+  labels:
+    app.kubernetes.io/instance: appserver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: appserver
+    app.kubernetes.io/version: "1.0"
+    helm.sh/chart: appserver-0.1.0
+  name: appserver
+  namespace: webfocus
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          service:
+            name: appserver
+            port:
+              name: port8080
+        path: /
+        pathType: ImplementationSpecific
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          service:
+            name: swego
+            port:
+              name: http
+        path: /swego/(.*)
+        pathType: ImplementationSpecific
