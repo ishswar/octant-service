@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prepare script with correct switches
-set -x
+set +x
 set -e
 set -u
 
