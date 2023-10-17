@@ -87,8 +87,14 @@ sudo apt-get install -y apt-transport-https
 
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo mkdir -p /etc/apt/keyrings
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes.gpg
+
 sudo apt-get update
-printAndRunCommand sudo apt-get install -y kubeadm=1.23.8-00 kubelet=1.23.8-00 kubectl
+printAndRunCommand sudo apt-get install -y kubeadm=1.23.8-00 kubelet=1.23.8-00 kubectl=1.23.8-00
+
 sudo apt-mark hold kubelet kubeadm kubectl
 
 echo "source <(kubeadm completion bash);source <(kubectl completion bash);alias nano='nano -cmET4';echo 'Hello k8s';source /usr/share/bash-completion/bash_completion" >>~/.bashrc
