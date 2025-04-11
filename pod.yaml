@@ -17,7 +17,7 @@ metadata:
 spec:
   containers:
     - name: app
-      image: centos
+      image: redhat/ubi9
       command: ["/bin/sh"]
       args: ["-c", "while true; do echo $(date -u) >> /data/out; sleep 5; done"]
       volumeMounts:
